@@ -37,9 +37,15 @@ const userController = {
       res.status(500).json({ message: err.message });
     }
   },
-  createUser: async (req, res) => {
+  createUser: async (req, res, hashPassword) => {
     try {
-      const user = await User.create(req.body);
+      // console.log(req.body.);
+      
+      const userData = {
+        ...req.body,
+        password: hashPassword
+      }
+      const user = await User.create(userData);
       res.status(200).json(user);
     } catch (err) {
       console.log(err);
@@ -163,6 +169,32 @@ const userController = {
       res.status(200).json("Updated all users successfully");
     } catch (err) {
       res.status(500).json({ message: err.message });
+    }
+  },
+  // Methods for JWT auth only
+  getUserEmail: async (email) => {
+    try {
+      const data = await User.find({
+        email: email,
+      });
+      return data;
+    } catch {
+      return null;
+    }
+  },
+  updateRefreshToken: async (email, refreshToken) => {
+    try {
+      await User.findOneAndUpdate(
+        { email: email },
+        {
+          refreshToken: refreshToken,
+        },
+        {
+          new: true,
+        }
+      );
+    } catch {
+      return null;
     }
   },
 };

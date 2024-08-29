@@ -1,11 +1,11 @@
 const mongoose = require("mongoose");
 
 const userSchema = mongoose.Schema({
-  userId: {
+  email: {
     type: String,
     required: true,
   },
-  email: {
+  password: {
     type: String,
     required: true,
   },
@@ -33,6 +33,11 @@ const userSchema = mongoose.Schema({
     type: String,
     required: false,
   },
+  // this is for jwt auth
+  refreshToken: {
+    type: String,
+    required: false,
+  }
 });
 
 const User = mongoose.model("users", userSchema);
