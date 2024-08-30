@@ -17,7 +17,7 @@ const userController = {
     try {
       const { id } = req.params;
       const user = await User.find({
-        userId: id,
+        _id: id,
       });
       res.status(200).json(user);
     } catch (err) {
@@ -65,7 +65,7 @@ const userController = {
     console.log("delete by id");
     try {
       const id = req.params.id;
-      await User.deleteMany({ userId: id });
+      await User.deleteOne({ _id: id });
       res.status(200).json("Deleted successfully");
     } catch (err) {
       res.status(500).json({ message: err.message });
@@ -74,7 +74,7 @@ const userController = {
   updateUserById: async (req, res) => {
     try {
       const id = req.params.id;
-      const user = await User.findOneAndUpdate({ userId: id }, req.body, {
+      const user = await User.findOneAndUpdate({ _id: id }, req.body, {
         new: true,
       });
       res.status(200).json("Updated successfully");

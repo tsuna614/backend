@@ -23,15 +23,11 @@ const userSchema = mongoose.Schema({
   },
   profileImageUrl: {
     type: String,
-    required: true,
+    required: false,
   },
   userFriends: {
     type: Array,
     required: true,
-  },
-  language: {
-    type: String,
-    required: false,
   },
   // this is for jwt auth
   refreshToken: {
