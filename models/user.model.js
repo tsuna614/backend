@@ -11,15 +11,15 @@ const userSchema = mongoose.Schema({
   },
   firstName: {
     type: String,
-    required: true,
+    required: false,
   },
   lastName: {
     type: String,
-    required: true,
+    required: false,
   },
   number: {
     type: String,
-    required: true,
+    required: false,
   },
   profileImageUrl: {
     type: String,

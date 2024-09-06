@@ -2,6 +2,8 @@ const { log } = require("console");
 const User = require("../models/user.model");
 const path = require("path");
 const fs = require("fs");
+const { uploadImage } = require("../utils/cloudinary");
+const uuid = require("uuid");
 
 const userController = {
   getAllUsers: async (req, res) => {
@@ -40,11 +42,11 @@ const userController = {
   createUser: async (req, res, hashPassword) => {
     try {
       // console.log(req.body.);
-      
+
       const userData = {
         ...req.body,
-        password: hashPassword
-      }
+        password: hashPassword,
+      };
       const user = await User.create(userData);
       res.status(200).json(user);
     } catch (err) {
@@ -82,81 +84,97 @@ const userController = {
       res.status(500).json({ message: err.message });
     }
   },
-  addFriend: async (req, res) => {
+  // addFriend: async (req, res) => {
+  //   try {
+  //     const userId = req.params.id;
+  //     const friendId = req.body.friendId;
+
+  //     const user1 = await User.find({
+  //       userId: userId,
+  //     });
+  //     await User.findOneAndUpdate(
+  //       { userId: userId },
+  //       {
+  //         userFriends: [...user1[0].userFriends, friendId],
+  //       },
+  //       {
+  //         new: true,
+  //       }
+  //     );
+
+  //     const user2 = await User.find({
+  //       userId: friendId,
+  //     });
+  //     await User.findOneAndUpdate(
+  //       { userId: friendId },
+  //       {
+  //         userFriends: [...user2[0].userFriends, userId],
+  //       },
+  //       {
+  //         new: true,
+  //       }
+  //     );
+  //     res.status(200).json("Friend added successfully");
+  //   } catch (err) {
+  //     res.status(500).json({ message: err.message });
+  //   }
+  // },
+  // removeFriend: async (req, res) => {
+  //   try {
+  //     const userId = req.params.id;
+  //     const friendId = req.body.friendId;
+
+  //     const user1 = await User.find({
+  //       userId: userId,
+  //     });
+  //     await User.findOneAndUpdate(
+  //       { userId: userId },
+  //       {
+  //         userFriends: user1[0].userFriends.filter(
+  //           (friend) => friend !== friendId
+  //         ),
+  //       },
+  //       {
+  //         new: true,
+  //       }
+  //     );
+
+  //     const user2 = await User.find({
+  //       userId: friendId,
+  //     });
+  //     await User.findOneAndUpdate(
+  //       { userId: friendId },
+  //       {
+  //         userFriends: user2[0].userFriends.filter(
+  //           (friend) => friend !== userId
+  //         ),
+  //       },
+  //       {
+  //         new: true,
+  //       }
+  //     );
+  //     res.status(200).json("Friend removed successfully");
+  //   } catch (err) {
+  //     res.status(500).json({ message: err.message });
+  //   }
+  // },
+  uploadAvatar: async (req, res) => {
     try {
-      const userId = req.params.id;
-      const friendId = req.body.friendId;
-
-      const user1 = await User.find({
-        userId: userId,
-      });
-      await User.findOneAndUpdate(
-        { userId: userId },
-        {
-          userFriends: [...user1[0].userFriends, friendId],
-        },
-        {
-          new: true,
-        }
-      );
-
-      const user2 = await User.find({
-        userId: friendId,
-      });
-      await User.findOneAndUpdate(
-        { userId: friendId },
-        {
-          userFriends: [...user2[0].userFriends, userId],
-        },
-        {
-          new: true,
-        }
-      );
-      res.status(200).json("Friend added successfully");
-    } catch (err) {
-      res.status(500).json({ message: err.message });
-    }
-  },
-  removeFriend: async (req, res) => {
-    try {
-      const userId = req.params.id;
-      const friendId = req.body.friendId;
-
-      const user1 = await User.find({
-        userId: userId,
-      });
-      await User.findOneAndUpdate(
-        { userId: userId },
-        {
-          userFriends: user1[0].userFriends.filter((friend) => friend !== friendId),
-        },
-        {
-          new: true,
-        }
-      );
-
-      const user2 = await User.find({
-        userId: friendId,
-      });
-      await User.findOneAndUpdate(
-        { userId: friendId },
-        {
-          userFriends: user2[0].userFriends.filter((friend) => friend !== userId),
-        },
-        {
-          new: true,
-        }
-      );
-      res.status(200).json("Friend removed successfully");
-    } catch (err) {
-      res.status(500).json({ message: err.message });
-    }
-  },
-  uploadImage: async (req, res) => {
-    try {
+      //
       const image = req.file;
-      console.log(image);
-      res.status(200).json(image);
+      const imageId = uuid.v4();
+      const result = await uploadImage(image.path, imageId);
+      fs.unlinkSync(image.path);
+      await User.findOneAndUpdate(
+        { _id: req.params.id },
+        {
+          profileImageUrl: result.secure_url,
+        },
+        {
+          new: true,
+        }
+      );
+      res.status(200).json("Avatar uploaded successfully");
     } catch (err) {
       res.status(500).json({ message: err.message });
     }

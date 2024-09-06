@@ -1,9 +1,9 @@
-require('dotenv').config();
+require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const app = express();
-const authRoute = require("./routes/auth.route")
+const authRoute = require("./routes/auth.route");
 const userRoute = require("./routes/user.route");
 const tourRoute = require("./routes/tour.route");
 const loggerMiddleware = require("./middleware/logger.middleware");
@@ -32,17 +32,17 @@ db.on("open", () => {
 });
 
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.json()); 
+app.use(express.json());
 app.use(loggerMiddleware);
 
 app.use("/auth", authRoute);
-app.use("/user", authMiddleware.isAuth, userRoute);
+// app.use("/user", authMiddleware.isAuth, userRoute);
 app.use("/tour", authMiddleware.isAuth, tourRoute);
-// app.use("/user", userRoute);
+app.use("/user", userRoute);
 
 app.get("/test", () => {
-    console.log("sent");
-})
+  console.log("sent");
+});
 
 // Error handler
 app.use((err, req, res, next) => {
@@ -52,5 +52,5 @@ app.use((err, req, res, next) => {
 
 // Start server
 app.listen(process.env.PORT, () => {
-    console.log(`Server is running on port ${process.env.PORT}`);
-})
+  console.log(`Server is running on port ${process.env.PORT}`);
+});
