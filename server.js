@@ -36,9 +36,9 @@ app.use(express.json());
 app.use(loggerMiddleware);
 
 app.use("/auth", authRoute);
-// app.use("/user", authMiddleware.isAuth, userRoute);
+app.use("/user", authMiddleware.isAuth, userRoute);
 app.use("/tour", authMiddleware.isAuth, tourRoute);
-app.use("/user", userRoute);
+// app.use("/user", userRoute);
 
 app.get("/test", () => {
   console.log("sent");
