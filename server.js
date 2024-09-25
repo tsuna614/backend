@@ -5,7 +5,8 @@ const bodyParser = require("body-parser");
 const app = express();
 const authRoute = require("./routes/auth.route");
 const userRoute = require("./routes/user.route");
-const tourRoute = require("./routes/tour.route");
+const travelRoute = require("./routes/travel.route");
+const postRoute = require("./routes/post.route");
 const loggerMiddleware = require("./middleware/logger.middleware");
 const authMiddleware = require("./middleware/auth.middleware");
 
@@ -36,9 +37,14 @@ app.use(express.json());
 app.use(loggerMiddleware);
 
 app.use("/auth", authRoute);
-app.use("/user", authMiddleware.isAuth, userRoute);
-app.use("/tour", authMiddleware.isAuth, tourRoute);
-// app.use("/tour", tourRoute);
+// app.use("/user", authMiddleware.isAuth, userRoute);
+// app.use("/travel", authMiddleware.isAuth, travelRoute);
+// app.use("/post", authMiddleware.isAuth, postRoute);
+
+/* test */
+app.use("/user", userRoute);
+app.use("/travel", travelRoute);
+app.use("/post", postRoute);
 
 app.get("/test", () => {
   console.log("sent");

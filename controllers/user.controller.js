@@ -64,7 +64,6 @@ const userController = {
     }
   },
   deleteUserById: async (req, res) => {
-    console.log("delete by id");
     try {
       const id = req.params.id;
       await User.deleteOne({ _id: id });
