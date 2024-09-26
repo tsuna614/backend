@@ -29,11 +29,15 @@ const userSchema = mongoose.Schema({
     type: Array,
     required: true,
   },
+  bookmarkedTravels: {
+    type: Array,
+    required: true,
+  },
   // this is for jwt auth
   refreshToken: {
     type: String,
     required: false,
-  }
+  },
 });
 
 const User = mongoose.model("users", userSchema);

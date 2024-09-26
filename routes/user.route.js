@@ -31,4 +31,6 @@ router.post(
   userController.uploadAvatar
 );
 
+router.put("/toggleBookmark", userController.toggleBookmark);
+
 module.exports = router;

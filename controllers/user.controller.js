@@ -190,6 +190,22 @@ const userController = {
       res.status(500).json({ message: err.message });
     }
   },
+  toggleBookmark: async (req, res, next) => {
+    try {
+      const { userId, travelId } = req.body;
+      const user = await User.findById(userId);
+      if (user.bookmarkedTravels.includes(travelId)) {
+        // remove travelId from bookmarkedTravels
+        user.bookmarkedTravels = user.bookmarkedTravels.filter(
+          (id) => id !== travelId
+        );
+      } else {
+        user.bookmarkedTravels.push(travelId);
+      }
+      const result = await User.findByIdAndUpdate(userId, user, { new: true });
+      res.status(200).json(result);
+    } catch (error) {}
+  },
   // Methods for JWT auth only
   getUserEmail: async (email) => {
     try {
