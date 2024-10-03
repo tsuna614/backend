@@ -25,7 +25,17 @@ const postController = {
   },
   getAllReviewPosts: async (req, res) => {
     try {
-      const posts = await Post.find({ rating: { $exists: true } });
+      const id = req.body.travelId;
+
+      // Build the query
+      const query = { rating: { $exists: true } };
+
+      // If id is provided, add travelId condition
+      if (id) {
+        query.travelId = id;
+      }
+
+      const posts = await Post.find(query);
       res.status(200).json(posts);
     } catch (err) {
       res.status(500).json({ message: err.message });
@@ -35,6 +45,7 @@ const postController = {
     try {
       const post = req.body;
       const result = await Post.create(post);
+      console.log(result);
       res.status(200).json(result);
     } catch (error) {
       res.status(500).json({ message: error.message });

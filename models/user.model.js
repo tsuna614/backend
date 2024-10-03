@@ -33,6 +33,10 @@ const userSchema = mongoose.Schema({
     type: Array,
     required: true,
   },
+  // bookedTravels: {
+  //   type: Array,
+  //   required: true,
+  // },
   // this is for jwt auth
   refreshToken: {
     type: String,

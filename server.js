@@ -7,6 +7,7 @@ const authRoute = require("./routes/auth.route");
 const userRoute = require("./routes/user.route");
 const travelRoute = require("./routes/travel.route");
 const postRoute = require("./routes/post.route");
+const bookRoute = require("./routes/book.route");
 const loggerMiddleware = require("./middleware/logger.middleware");
 const authMiddleware = require("./middleware/auth.middleware");
 
@@ -45,6 +46,7 @@ app.use("/auth", authRoute);
 app.use("/user", userRoute);
 app.use("/travel", travelRoute);
 app.use("/post", postRoute);
+app.use("/book", bookRoute);
 
 app.get("/test", () => {
   console.log("sent");
