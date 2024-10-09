@@ -3,7 +3,6 @@ const path = require("path");
 const fs = require("fs");
 const { uploadImage } = require("../utils/cloudinary");
 const uuid = require("uuid");
-const { get } = require("http");
 
 const postController = {
   getAllPosts: async (req, res) => {
@@ -15,9 +14,21 @@ const postController = {
       res.status(500).json({ message: err.message });
     }
   },
+  getPostById: async (req, res) => {
+    try {
+      const id = req.params.id;
+      const post = await Post.findById(id);
+      res.status(200).json(post);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  },
   getAllNormalPosts: async (req, res) => {
     try {
-      const posts = await Post.find({ rating: { $exists: false } });
+      const posts = await Post.find({
+        rating: { $exists: false },
+        postId: { $exists: false },
+      });
       res.status(200).json(posts);
     } catch (err) {
       res.status(500).json({ message: err.message });
@@ -25,7 +36,7 @@ const postController = {
   },
   getAllReviewPosts: async (req, res) => {
     try {
-      const id = req.body.travelId;
+      const id = req.body.targetId;
 
       // Build the query
       const query = { rating: { $exists: true } };
@@ -39,6 +50,22 @@ const postController = {
       res.status(200).json(posts);
     } catch (err) {
       res.status(500).json({ message: err.message });
+    }
+  },
+  getAllCommentPosts: async (req, res) => {
+    try {
+      const id = req.body.targetId;
+
+      const query = { postId: { $exists: true } };
+
+      if (id) {
+        query.postId = id;
+      }
+
+      const posts = await Post.find(query);
+      res.status(200).json(posts);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
     }
   },
   createPost: async (req, res) => {

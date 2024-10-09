@@ -26,7 +26,7 @@ postSchema = new mongoose.Schema(
       type: [String],
       required: false,
     },
-    // from here is for review posts only
+    // this is for review posts only
     rating: {
       type: Number,
       required: false,
@@ -35,9 +35,15 @@ postSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
+    // this is for comment posts only
+    postId: {
+      type: String,
+      required: false,
+    },
   },
   {
     timestamps: true,
+    versionKey: false,
   }
 );
 

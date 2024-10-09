@@ -3,11 +3,15 @@ const router = express.Router();
 const postController = require("../controllers/post.controller");
 const upload = require("../middleware/multer.middleware");
 
-router.get("/getAllPosts", postController.getAllPosts);
+router.get("/", postController.getAllPosts);
 
 router.get("/getAllNormalPosts", postController.getAllNormalPosts);
 
 router.get("/getAllReviewPosts", postController.getAllReviewPosts);
+
+router.get("/getAllCommentPosts", postController.getAllCommentPosts);
+
+router.get("/:id", postController.getPostById);
 
 router.post("/createPost", postController.createPost);
 
