@@ -27,6 +27,27 @@ async function uploadImage(imagePath, id) {
   return result;
 }
 
+async function uploadVideo(videoPath, id) {
+  const result = await cloudinary.uploader.upload(
+    videoPath,
+    {
+      public_id: id,
+      resource_type: "video",
+      folder: "user_videos",
+    },
+    function (error, result) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log(result);
+      }
+    }
+  );
+
+  return result;
+}
+
 module.exports = {
   uploadImage,
+  uploadVideo,
 };

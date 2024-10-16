@@ -1,7 +1,7 @@
 const { Post } = require("../models/post.model");
 const path = require("path");
 const fs = require("fs");
-const { uploadImage } = require("../utils/cloudinary");
+const { uploadImage, uploadVideo } = require("../utils/cloudinary");
 const uuid = require("uuid");
 
 const postController = {
@@ -111,7 +111,6 @@ const postController = {
   },
   uploadImage: async (req, res) => {
     try {
-      //
       const image = req.file;
       const imageId = uuid.v4();
       const result = await uploadImage(image.path, imageId);
@@ -119,6 +118,17 @@ const postController = {
       res.status(200).json({
         imageUrl: result.secure_url,
       });
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+  },
+  uploadVideo: async (req, res) => {
+    try {
+      const video = req.file;
+      const videoId = uuid.v4();
+      const result = await uploadVideo(video.path, videoId);
+      fs.unlinkSync(video.path);
+      res.status(200).json({ videoUrl: result.secure_url });
     } catch (err) {
       res.status(500).json({ message: err.message });
     }

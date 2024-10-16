@@ -14,6 +14,10 @@ postSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
+    contentType: {
+      type: String,
+      required: false,
+    },
     likes: {
       type: [String],
       required: false,

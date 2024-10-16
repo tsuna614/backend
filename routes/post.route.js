@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const postController = require("../controllers/post.controller");
 const upload = require("../middleware/multer.middleware");
+const fs = require("fs");
 
 router.get("/", postController.getAllPosts);
 
@@ -23,5 +24,7 @@ router.delete("/:id", postController.deletePostById);
 router.post("/likePost", postController.likePost);
 
 router.post("/uploadImage", upload.single("image"), postController.uploadImage);
+
+router.post("/uploadVideo", upload.single("video"), postController.uploadVideo);
 
 module.exports = router;
