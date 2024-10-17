@@ -1,8 +1,26 @@
 const { Post } = require("../models/post.model");
 const path = require("path");
 const fs = require("fs");
-const { uploadImage, uploadVideo } = require("../utils/cloudinary");
+const { uploadImage, uploadVideo, deleteItem } = require("../utils/cloudinary");
 const uuid = require("uuid");
+
+async function deleteCloudinaryItem(itemUrl, resourceType) {
+  try {
+    // const itemUrl = req.body.itemUrl;
+    // const resourceType = req.body.resourceType;
+    // const publicId = itemUrl.split("/").pop().split(".")[0];
+    const publicId = itemUrl
+      .split("/")
+      .slice(-2)
+      .join("/") // Handles if the item is in a folder
+      .split(".")[0]; // Remove file extension
+    console.log(publicId);
+
+    const result = await deleteItem(publicId, resourceType);
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 const postController = {
   getAllPosts: async (req, res) => {
@@ -87,6 +105,14 @@ const postController = {
   deletePostById: async (req, res) => {
     try {
       const id = req.params.id;
+      const post = await Post.findById(id);
+      if (post.imageUrl) {
+        if (post.contentType === "video") {
+          await deleteCloudinaryItem(post.imageUrl, "video");
+        } else {
+          await deleteCloudinaryItem(post.imageUrl, "image");
+        }
+      }
       await Post.deleteOne({ _id: id });
       res.status(200).json("Deleted successfully");
     } catch (err) {
@@ -131,6 +157,24 @@ const postController = {
       res.status(200).json({ videoUrl: result.secure_url });
     } catch (err) {
       res.status(500).json({ message: err.message });
+    }
+  },
+  deleteItem: async (req, res) => {
+    try {
+      const itemUrl = req.body.itemUrl;
+      const resourceType = req.body.resourceType;
+      // const publicId = itemUrl.split("/").pop().split(".")[0];
+      const publicId = itemUrl
+        .split("/")
+        .slice(-2)
+        .join("/") // Handles if the item is in a folder
+        .split(".")[0]; // Remove file extension
+      console.log(publicId);
+
+      const result = await deleteItem(publicId, resourceType);
+      res.status(200).json(result);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
     }
   },
 };

@@ -27,4 +27,6 @@ router.post("/uploadImage", upload.single("image"), postController.uploadImage);
 
 router.post("/uploadVideo", upload.single("video"), postController.uploadVideo);
 
+router.post("/deleteItem", postController.deleteItem);
+
 module.exports = router;

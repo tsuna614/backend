@@ -44,6 +44,11 @@ postSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
+    // this is for share posts only
+    sharedPostId: {
+      type: String,
+      required: false,
+    },
   },
   {
     timestamps: true,

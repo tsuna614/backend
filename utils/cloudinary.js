@@ -47,7 +47,24 @@ async function uploadVideo(videoPath, id) {
   return result;
 }
 
+async function deleteItem(id, resourceType) {
+  const result = await cloudinary.uploader.destroy(
+    id,
+    { resource_type: resourceType },
+    function (error, result) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log(result);
+      }
+    }
+  );
+
+  return result;
+}
+
 module.exports = {
   uploadImage,
   uploadVideo,
+  deleteItem,
 };
