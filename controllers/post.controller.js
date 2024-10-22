@@ -52,7 +52,7 @@ const postController = {
       res.status(500).json({ message: err.message });
     }
   },
-  getAllReviewPosts: async (req, res) => {
+  getReviewPosts: async (req, res) => {
     try {
       const id = req.body.targetId;
 
@@ -70,7 +70,7 @@ const postController = {
       res.status(500).json({ message: err.message });
     }
   },
-  getAllCommentPosts: async (req, res) => {
+  getCommentPosts: async (req, res) => {
     try {
       const id = req.body.targetId;
 

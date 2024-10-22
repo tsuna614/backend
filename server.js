@@ -10,6 +10,7 @@ const postRoute = require("./routes/post.route");
 const bookRoute = require("./routes/book.route");
 const loggerMiddleware = require("./middleware/logger.middleware");
 const authMiddleware = require("./middleware/auth.middleware");
+const cors = require("cors");
 
 /////////////////////////////////
 
@@ -34,6 +35,7 @@ db.on("open", () => {
 });
 
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors());
 app.use(express.json());
 app.use(loggerMiddleware);
 

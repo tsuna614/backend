@@ -8,9 +8,9 @@ router.get("/", postController.getAllPosts);
 
 router.get("/getAllNormalPosts", postController.getAllNormalPosts);
 
-router.get("/getAllReviewPosts", postController.getAllReviewPosts);
-
-router.get("/getAllCommentPosts", postController.getAllCommentPosts);
+// this is the post methods, because get method with a body does not work on web (it works on postman and mobile though)
+router.post("/getReviewPosts", postController.getReviewPosts);
+router.post("/getCommentPosts", postController.getCommentPosts);
 
 router.get("/:id", postController.getPostById);
 
