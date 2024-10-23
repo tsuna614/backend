@@ -17,9 +17,9 @@ router.delete("/deleteUserByEmail/:email", userController.deleteUserByEmail);
 
 router.delete("/deleteUserById/:id", userController.deleteUserById);
 
-// router.post("/addFriend/:id", userController.addFriend);
+router.post("/addFriend/:id", userController.addFriend);
 
-// router.post("/removeFriend/:id", userController.removeFriend);
+router.post("/removeFriend/:id", userController.removeFriend);
 
 router.put("/updateAllUsers", userController.updateAllUsers);
 

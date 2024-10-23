@@ -6,9 +6,9 @@ const fs = require("fs");
 
 router.get("/", postController.getAllPosts);
 
-router.get("/getAllNormalPosts", postController.getAllNormalPosts);
-
 // this is the post methods, because get method with a body does not work on web (it works on postman and mobile though)
+// might as well change it for getAllNormalPosts to match the call in the front end
+router.post("/getAllNormalPosts", postController.getAllNormalPosts);
 router.post("/getReviewPosts", postController.getReviewPosts);
 router.post("/getCommentPosts", postController.getCommentPosts);
 
