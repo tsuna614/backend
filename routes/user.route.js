@@ -19,7 +19,7 @@ router.delete("/deleteUserById/:id", userController.deleteUserById);
 
 router.post("/addFriend/:id", userController.addFriend);
 
-router.post("/removeFriend/:id", userController.removeFriend);
+router.put("/removeFriend/:id", userController.removeFriend);
 
 router.put("/updateAllUsers", userController.updateAllUsers);
 

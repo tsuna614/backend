@@ -90,8 +90,6 @@ const userController = {
 
       const user1 = await User.findById(userId);
 
-      console.log(user1);
-
       if (!user1.userFriends.includes(targetId)) {
         await User.findOneAndUpdate(
           { _id: userId },
@@ -116,7 +114,7 @@ const userController = {
           }
         );
       }
-      res.status(200).json("Friend added successfully");
+      // not setting response because the response is in notification controller
     } catch (err) {
       res.status(500).json({ message: err.message });
     }
