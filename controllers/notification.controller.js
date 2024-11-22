@@ -16,7 +16,7 @@ const notificationController = {
       const notification = await Notification.find({
         conversationId: req.params.id,
       });
-      res.status(200).json(notification);
+      res.status(200).json(notification[0]);
     } catch (error) {
       next(error);
     }
@@ -26,7 +26,7 @@ const notificationController = {
       const notification = await Notification.find({
         receiver: req.params.id,
       });
-      res.status(200).json(notification);
+      res.status(200).json(notification[0]);
     } catch (error) {
       next(error);
     }

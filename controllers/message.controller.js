@@ -13,7 +13,7 @@ const messageController = {
   getMessageById: async (req, res, next) => {
     try {
       const message = await Message.find({ conversationId: req.params.id });
-      res.status(200).json(message);
+      res.status(200).json(message[0]);
     } catch (error) {
       next(error);
     }

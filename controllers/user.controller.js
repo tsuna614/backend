@@ -21,7 +21,7 @@ const userController = {
       const user = await User.find({
         _id: id,
       });
-      res.status(200).json(user);
+      res.status(200).json(user[0]);
     } catch (err) {
       console.log(err);
       res.status(500).json({ message: err.message });
@@ -33,7 +33,7 @@ const userController = {
       const user = await User.find({
         email: email,
       });
-      res.status(200).json(user);
+      res.status(200).json(user[0]);
     } catch (err) {
       console.log(err);
       res.status(500).json({ message: err.message });

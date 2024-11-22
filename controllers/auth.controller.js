@@ -40,7 +40,6 @@ const authController = {
     }
 
     console.log(`Email: ${email}, Password: ${password}, ${user[0].password}`);
-    
 
     const isPasswordValid = bcrypt.compareSync(password, user[0].password);
     if (!isPasswordValid) {
@@ -119,15 +118,12 @@ const authController = {
 
     const email = decoded.payload.email; // Lấy email từ payload
 
-    
-    
     const user = await userController.getUserEmail(email);
 
-    
     if (user.length === 0) {
       return res.status(401).send("Email does not exist.");
     }
-    
+
     // console.log(email);
     console.log(user[0].refreshToken);
 

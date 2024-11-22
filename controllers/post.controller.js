@@ -36,7 +36,7 @@ const postController = {
     try {
       const id = req.params.id;
       const post = await Post.findById(id);
-      res.status(200).json(post);
+      res.status(200).json(post[0]);
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
@@ -105,17 +105,25 @@ const postController = {
   deletePostById: async (req, res) => {
     try {
       const id = req.params.id;
-      const post = await Post.findById(id);
-      if (post.imageUrl) {
-        if (post.contentType === "video") {
-          await deleteCloudinaryItem(post.imageUrl, "video");
-        } else {
-          await deleteCloudinaryItem(post.imageUrl, "image");
+      console.log(id);
+      const post = await Post.find({
+        _id: id,
+      });
+      if (post) {
+        if (post.imageUrl) {
+          if (post.contentType === "video") {
+            await deleteCloudinaryItem(post.imageUrl, "video");
+          } else {
+            await deleteCloudinaryItem(post.imageUrl, "image");
+          }
         }
+        await Post.deleteOne({ _id: id });
+        res.status(200).json("Deleted successfully");
+      } else {
+        res.status(404).json("Post not found");
       }
-      await Post.deleteOne({ _id: id });
-      res.status(200).json("Deleted successfully");
     } catch (err) {
+      console.log(err);
       res.status(500).json({ message: err.message });
     }
   },

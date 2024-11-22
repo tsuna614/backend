@@ -35,7 +35,7 @@ const travelController = {
   getTravelById: async (req, res, next) => {
     try {
       const travel = await Travel.findById(req.params.id);
-      res.status(200).json(Travel);
+      res.status(200).json(travel[0]);
     } catch (error) {
       next(error);
     }
