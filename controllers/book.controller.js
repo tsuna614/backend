@@ -28,7 +28,7 @@ const bookController = {
   getBookById: async (req, res, next) => {
     try {
       const book = await Book.findById(req.params.id);
-      res.status(200).json(book[0]);
+      res.status(200).json(book);
     } catch (error) {
       next(error);
     }
