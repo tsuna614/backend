@@ -15,7 +15,7 @@ router.get("/getReviewPosts", postController.getReviewPosts);
 router.get("/getCommentPosts", postController.getCommentPosts);
 
 router.get("/:id", postController.getPostById);
-s;
+
 router.post("/createPost", postController.createPost);
 
 router.put("/:id", postController.updatePostById);
