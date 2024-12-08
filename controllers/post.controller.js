@@ -54,7 +54,7 @@ const postController = {
   },
   getReviewPosts: async (req, res) => {
     try {
-      const id = req.body.targetId;
+      const id = req.query.id;
 
       // Build the query
       const query = { rating: { $exists: true } };
@@ -72,7 +72,7 @@ const postController = {
   },
   getCommentPosts: async (req, res) => {
     try {
-      const id = req.body.targetId;
+      const id = req.query.id;
 
       const query = { postId: { $exists: true } };
 

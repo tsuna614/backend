@@ -8,12 +8,14 @@ router.get("/", postController.getAllPosts);
 
 // this is the post methods, because get method with a body does not work on web (it works on postman and mobile though)
 // might as well change it for getAllNormalPosts to match the call in the front end
-router.post("/getAllNormalPosts", postController.getAllNormalPosts);
-router.post("/getReviewPosts", postController.getReviewPosts);
-router.post("/getCommentPosts", postController.getCommentPosts);
+router.get("/getAllNormalPosts", postController.getAllNormalPosts);
+
+router.get("/getReviewPosts", postController.getReviewPosts);
+
+router.get("/getCommentPosts", postController.getCommentPosts);
 
 router.get("/:id", postController.getPostById);
-
+s;
 router.post("/createPost", postController.createPost);
 
 router.put("/:id", postController.updatePostById);
